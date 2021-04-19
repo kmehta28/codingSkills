@@ -44,5 +44,5 @@ Please refer input folder for sample CSVs:
 
 
 ### How to Run
-Execute com.main.Main class to pass path to input folder and output folder. Once it is successfully executed, merged catalog can be found in output folder in result_output.csv
-
+Execute com.main.Main class to pass path to input folder and output folder as program arguments. Once it is successfully executed, merged catalog can be found in output folder in result_output.csv
+Jar dependencies are included in lib folder for running unit tests.
