@@ -69,6 +69,18 @@ public class MasterCatalog {
 
         List<SupplierProductBarcode> supplierProductBarcodesListB = supplierProductBarcodesB.getSupplierProductBarcodeList();
 
+        if (supplierProductBarcodesListA == null || supplierProductBarcodesListA.isEmpty()) {
+            for (SupplierProductBarcode supplierProductBarcodeB : supplierProductBarcodesListB) {
+                addToMasterCatalog(supplierProductBarcodeB.getSku(), "B");
+            }
+            return;
+        }
+        if (supplierProductBarcodesListB == null || supplierProductBarcodesListB.isEmpty()) {
+            for (SupplierProductBarcode supplierProductBarcodeA : supplierProductBarcodesListA) {
+                addToMasterCatalog(supplierProductBarcodeA.getSku(), "A");
+            }
+            return;
+        }
         //Temporary list to keep track of added products
         List<String> added = new ArrayList<>();
 

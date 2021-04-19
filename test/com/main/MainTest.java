@@ -17,8 +17,8 @@ public class MainTest {
 
         MasterCatalog masterCatalog = new MasterCatalog();
         masterCatalog.loadMasterCatalog(null, null);
-        Assert.assertNotEquals(masterCatalog.getMasterCatalogMap(), null);
-        Assert.assertEquals(masterCatalog.getMasterCatalogMap().size(), 0);
+        Assert.assertNotEquals(null, masterCatalog.getMasterCatalogMap());
+        Assert.assertEquals(0, masterCatalog.getMasterCatalogMap().size());
 
     }
 
@@ -91,8 +91,8 @@ public class MainTest {
 
         System.out.println(masterCatalog.getMasterCatalogMap());
 
-        Assert.assertNotEquals(masterCatalog.getMasterCatalogMap(), null);
-        Assert.assertEquals(masterCatalog.getMasterCatalogMap().size(), 5);
+        Assert.assertNotEquals(null, masterCatalog.getMasterCatalogMap());
+        Assert.assertEquals(5, masterCatalog.getMasterCatalogMap().size());
 
         Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().containsKey(skuB3));
         Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().get(skuB3).equals("B"));
@@ -105,6 +105,54 @@ public class MainTest {
 
         Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().containsKey(skuA2));
         Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().get(skuA2).equals("A"));
+
+        Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().containsKey(skuB2));
+        Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().get(skuB2).equals("B"));
+
+    }
+
+    @Test public void TestLoadMasterCatalogFromOneCatalog() {
+
+        SupplierProductBarcodes mockSupplierProductBarcodesA = Mockito.mock(
+            SupplierProductBarcodes.class);
+
+        List<SupplierProductBarcode> supplierProductBarcodeListA = new ArrayList<>();
+        Mockito.when(mockSupplierProductBarcodesA.getSupplierProductBarcodeList()).thenReturn(
+            supplierProductBarcodeListA);
+
+        SupplierProductBarcodes mockSupplierProductBarcodesB = Mockito.mock(
+            SupplierProductBarcodes.class);
+
+        List<SupplierProductBarcode> supplierProductBarcodeListB = new ArrayList<>();
+        Sku skuB1 = new Sku("Sku_1", "Mug");
+        Sku skuB2 = new Sku("Sku1", "Pan");
+        Sku skuB3 = new Sku("SkuX", "Coffee");
+        SupplierProductBarcode supplierProductBarcodeB1 = new SupplierProductBarcode(
+            new Supplier(1, "Camie"), skuB1, "xyz");
+        SupplierProductBarcode supplierProductBarcodeB2 = new SupplierProductBarcode(
+            new Supplier(2, "Brilliant"), skuB2, "www");
+        SupplierProductBarcode supplierProductBarcodeB3 = new SupplierProductBarcode(
+            new Supplier(3, "Flash"), skuB3, "zzz");
+        supplierProductBarcodeListB.add(supplierProductBarcodeB1);
+        supplierProductBarcodeListB.add(supplierProductBarcodeB2);
+        supplierProductBarcodeListB.add(supplierProductBarcodeB3);
+        Mockito.when(mockSupplierProductBarcodesB.getSupplierProductBarcodeList()).thenReturn(
+            supplierProductBarcodeListB);
+
+        MasterCatalog masterCatalog = new MasterCatalog();
+
+        masterCatalog.loadMasterCatalog(mockSupplierProductBarcodesA, mockSupplierProductBarcodesB);
+
+        System.out.println(masterCatalog.getMasterCatalogMap());
+
+        Assert.assertNotEquals(null, masterCatalog.getMasterCatalogMap());
+        Assert.assertEquals(3, masterCatalog.getMasterCatalogMap().size());
+
+        Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().containsKey(skuB3));
+        Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().get(skuB3).equals("B"));
+
+        Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().containsKey(skuB1));
+        Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().get(skuB1).equals("B"));
 
         Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().containsKey(skuB2));
         Assert.assertEquals(true, masterCatalog.getMasterCatalogMap().get(skuB2).equals("B"));
